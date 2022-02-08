@@ -6,7 +6,7 @@ import java.util.Random;
 
 /**
  * Represent a rectangular grid of field positions.
- * Each position is able to store a single animal.
+ * Each position is able to store a single organism.
  * 
  * @author David J. Barnes and Michael Kölling
  * @version 2016.02.29
@@ -55,34 +55,34 @@ public class Field
     }
     
     /**
-     * Place an animal at the given location.
-     * If there is already an animal at the location it will
+     * Place an organism at the given location.
+     * If there is already an organism at the location it will
      * be lost.
-     * @param animal The animal to be placed.
+     * @param organism The organism to be placed.
      * @param row Row coordinate of the location.
      * @param col Column coordinate of the location.
      */
-    public void place(Object animal, int row, int col)
+    public void place(Object organism, int row, int col)
     {
-        place(animal, new Location(row, col));
+        place(organism, new Location(row, col));
     }
     
     /**
-     * Place an animal at the given location.
-     * If there is already an animal at the location it will
+     * Place an organism at the given location.
+     * If there is already an organism at the location it will
      * be lost.
-     * @param animal The animal to be placed.
+     * @param organism The organism to be placed.
      * @param location Where to place the animal.
      */
-    public void place(Object animal, Location location)
+    public void place(Object organism, Location location)
     {
-        field[location.getRow()][location.getCol()] = animal;
+        field[location.getRow()][location.getCol()] = organism;
     }
     
     /**
-     * Return the animal at the given location, if any.
+     * Return the organism at the given location, if any.
      * @param location Where in the field.
-     * @return The animal at the given location, or null if there is none.
+     * @return The organism at the given location, or null if there is none.
      */
     public Object getObjectAt(Location location)
     {
@@ -90,10 +90,10 @@ public class Field
     }
     
     /**
-     * Return the animal at the given location, if any.
+     * Return the organism at the given location, if any.
      * @param row The desired row.
      * @param col The desired column.
-     * @return The animal at the given location, or null if there is none.
+     * @return The organism at the given location, or null if there is none.
      */
     public Object getObjectAt(int row, int col)
     {
@@ -148,7 +148,7 @@ public class Field
         }
         else {
             return null;
-        }
+        } 
     }
 
     /**

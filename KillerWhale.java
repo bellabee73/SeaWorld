@@ -3,70 +3,70 @@ import java.util.Iterator;
 import java.util.Random;
 
 /**
- * A simple model of a dolphin.
- * Dolphins age, move, eat sardines, and die.
+ * A simple model of a killer whale.
+ * Killer whales age, move, eat sea otters, and die.
  * 
  * @author David J. Barnes and Michael Kölling
  * @version 2016.02.29 (2)
  */
-public class Dolphin extends Organism
+public class KillerWhale extends Organism
 {
-    // Characteristics shared by all dolphins (class variables).
+    // Characteristics shared by all killer whales (class variables).
     
-    // The age at which a dolphin can start to breed.
-    private static final int BREEDING_AGE = 9;
-    // The age to which a dolphin can live.
-    private static final int MAX_AGE = 50;
-    // The likelihood of a dolphin breeding.
+    // The age at which a killer whale can start to breed.
+    private static final int BREEDING_AGE = 15;
+    // The age to which a killer whale can live.
+    private static final int MAX_AGE = 30;
+    // The likelihood of a killer whale breeding.
     private static final double BREEDING_PROBABILITY = 0.20;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
-    // The food value of a single sardine. In effect, this is the
-    // number of steps a dolphin can go before it has to eat again.
-    private static final int SARDINE_FOOD_VALUE = 6;
+    // The food value of a single sea otter. In effect, this is the
+    // number of steps a killer whale can go before it has to eat again.
+    private static final int SEAOTTER_FOOD_VALUE = 8; 
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
     
     // Individual characteristics (instance fields).
-    // The dolphin's age.
+    // The killer whale's age.
     private int age;
-    // The dolphin's food level, which is increased by eating sardines.
+    // The killer whale's food level, which is increased by eating sea otters.
     private int foodLevel;
 
     /**
-     * Create a dolphin. A dolphin can be created as a new born (age zero
+     * Create a killer whale. A killer whale can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
      * 
-     * @param randomAge If true, the dolphin will have random age and hunger level.
+     * @param randomAge If true, the fox will have random age and hunger level.
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Dolphin(boolean randomAge, Field field, Location location)
+    public KillerWhale(boolean randomAge, Field field, Location location)
     {
         super(field, location);
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
-            foodLevel = rand.nextInt(SARDINE_FOOD_VALUE);
+            foodLevel = rand.nextInt(SEAOTTER_FOOD_VALUE);
         }
         else {
             age = 0;
-            foodLevel = SARDINE_FOOD_VALUE;
+            foodLevel = SEAOTTER_FOOD_VALUE;
         }
     }
     
     /**
-     * This is what the dolphin does most of the time: it hunts for
-     * sardines. In the process, it might breed, die of hunger,
+     * This is what the killer whale does most of the time: it hunts for
+     * sea otters. In the process, it might breed, die of hunger,
      * or die of old age.
      * @param field The field currently occupied.
-     * @param newDolphins A list to return newly born dolphins.
+     * @param newKillerWhales A list to return newly born killer whales.
      */
-    public void act(List<Organism> newDolphins)
+    public void act(List<Organism> newKillerWhales)
     {
         incrementAge();
         incrementHunger();
         if(isAlive()) {
-            giveBirth(newDolphins);            
+            giveBirth(newKillerWhales);            
             // Move towards a source of food if found.
             Location newLocation = findFood();
             if(newLocation == null) { 
@@ -85,7 +85,7 @@ public class Dolphin extends Organism
     }
 
     /**
-     * Increase the age. This could result in the dolphin's death.
+     * Increase the age. This could result in the killer whale's death.
      */
     private void incrementAge()
     {
@@ -96,7 +96,7 @@ public class Dolphin extends Organism
     }
     
     /**
-     * Make this dolphin more hungry. This could result in the dolphin's death.
+     * Make this killer whale more hungry. This could result in the killer whale's death.
      */
     private void incrementHunger()
     {
@@ -107,8 +107,8 @@ public class Dolphin extends Organism
     }
     
     /**
-     * Look for sardines adjacent to the current location.
-     * Only the first live sardines is eaten.
+     * Look for sea otters adjacent to the current location.
+     * Only the first live sea otter is eaten.
      * @return Where food was found, or null if it wasn't.
      */
     private Location findFood()
@@ -119,11 +119,11 @@ public class Dolphin extends Organism
         while(it.hasNext()) {
             Location where = it.next();
             Object animal = field.getObjectAt(where);
-            if(animal instanceof Sardine) {
-                Sardine sardine = (Sardine) animal;
-                if(sardine.isAlive()) { 
-                    sardine.setDead();
-                    foodLevel = SARDINE_FOOD_VALUE;
+            if(animal instanceof SeaOtter) {
+                SeaOtter seaOtter = (SeaOtter) animal;
+                if(seaOtter.isAlive()) { 
+                    seaOtter.setDead();
+                    foodLevel = SEAOTTER_FOOD_VALUE;
                     return where;
                 }
             }
@@ -132,21 +132,21 @@ public class Dolphin extends Organism
     }
     
     /**
-     * Check whether or not this dolphin is to give birth at this step.
+     * Check whether or not this fox is to give birth at this step.
      * New births will be made into free adjacent locations.
-     * @param newDolphins A list to return newly born dolphins.
+     * @param newKillerWhales A list to return newly born killer whales.
      */
-    private void giveBirth(List<Organism> newDolphins)
+    private void giveBirth(List<Organism> newKillerWhales)
     {
-        // New dolphins are born into adjacent locations.
+        // New killer whales are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Dolphin young = new Dolphin(false, field, loc);
-            newDolphins.add(young);
+            KillerWhale young = new KillerWhale(false, field, loc);
+            newKillerWhales.add(young);
         }
     }
         
@@ -165,7 +165,7 @@ public class Dolphin extends Organism
     }
 
     /**
-     * A dolphin can breed if it has reached the breeding age.
+     * A killer whale can breed if it has reached the breeding age.
      */
     private boolean canBreed()
     {
